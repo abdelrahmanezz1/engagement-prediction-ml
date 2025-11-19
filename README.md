@@ -1,102 +1,63 @@
-\# 🎬 Engagement Prediction from Video \& Audio
+🎬 Engagement Prediction from Video & Audio
 
+This project builds a machine learning pipeline to predict user engagement from short video recordings using audio + meta features.
 
+🚀 What this project does
 
-This project builds a machine learning pipeline to predict \*\*user engagement\*\* from short video recordings using \*\*audio + video features\*\*.
+📌 Splits videos into labeled segments (high, mid, low, read, talk, idle)
 
+🎧 Extracts audio features (MFCCs, spectral, ZCR, chroma — via Librosa)
 
+🧠 Adds meta information (segment type, duration)
 
----
+🤖 Trains ML models to predict engagement:
 
+3-class → low / mid / high
 
+Binary → high vs non-high (best-performing)
 
-\## 🚀 What this project does
+📥 Dataset Collection (Self-Recorded)
 
+Unlike most projects that use public datasets, this dataset was collected manually.
 
+6 real participants recorded ~3-minute videos each
 
-\- Splits videos into labeled segments (high, mid, low, read, talk, idle)
+Each recording contained structured segments (exciting video, boring video, reading aloud, personal talk, idle)
 
-\- Extracts features:
+After every segment, participants self-reported their engagement on a 1–5 scale
 
-&nbsp; - 🎧 Audio (MFCCs, spectral, ZCR, chroma via Librosa)
+📌 This made the project more realistic but also challenging due to:
 
-&nbsp; - 🧠 Meta info (segment type, duration)
+Small dataset size (only 34 labeled segments)
 
-\- Trains ML models to predict engagement:
+Engagement is subjective, especially the mid class
 
-&nbsp; - 3-class: \*\*low / mid / high\*\*
+Manual annotation and timestamp alignment effort
 
-&nbsp; - Binary: \*\*high vs non-high\*\* (best)
+High variance between different individuals
 
+➡ Despite these constraints, the ML pipeline successfully extracted meaningful engagement patterns.
 
+📊 Results (Stratified 5-Fold CV)
+Task	Best Model	Accuracy	Macro F1
+3-Class (low/mid/high)	Random Forest	61.4%	0.42
+Binary (high vs non-high)	XGBoost	65.7%	0.62
 
----
+🎯 Binary classification performed better because the mid engagement level is highly subjective and difficult to learn from a limited dataset.
 
-
-
-\## 📊 Results (Stratified 5-Fold CV)
-
-
-
-| Task                     | Best Model     | Accuracy | Macro F1 |
-
-|--------------------------|----------------|----------|----------|
-
-| 3-Class (low/mid/high)   | Random Forest  | \*\*61.4%\*\* | 0.42     |
-
-| Binary (high vs non-high)| XGBoost        | \*\*65.7%\*\* | \*\*0.62\*\* |
-
-
-
-➡ Binary works better because \*\*“mid” engagement is subjective\*\* and hard to learn with few samples.
-
-
-
----
-
-
-
-\## 🗂 Project structure
-
-
-
-```text
-
+🗂 Project Structure
 notebooks/
-
-├── 01-feature-extraction.ipynb          # Extract audio + video features
-
+├── 01-feature-extraction.ipynb          # Extract audio + metadata features
 ├── 02-training-evaluation-multiclass.ipynb
+└── 03-training-evaluation-binary.ipynb  # 🚀 Best-performing model
 
-└── 03-training-evaluation-binary.ipynb  # Best-performing model
+🔍 Key Points
 
+✔ Small real dataset: 6 subjects, 34 total samples
+✔ Labels based on self-reported engagement (1–5)
+✔ Smart problem reframing: from noisy 3-class → more reliable binary
+✔ Full ML pipeline demonstrated: data → features → training → evaluation
 
-
-
-
-🔍 Key points
-
-
-
-&nbsp;-Small real dataset: 6 subjects, ~34 labeled segments
-
-
-
-&nbsp;-Engagement labels are self-reported  (1–5)
-
-
-
-&nbsp;-Smart reframing: from noisy 3-class →  more reliable binary
-
-
-
-&nbsp;-Shows full pipeline: data → features → models → evaluation
-
-
-
-🧪Tech stack
-
-
+🧪 Tech Stack
 
 Python · Scikit-Learn · XGBoost · Librosa · OpenCV · PCA · Jupyter
-
